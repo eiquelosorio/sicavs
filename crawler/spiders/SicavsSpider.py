@@ -18,8 +18,8 @@ class SicavsSpider(scrapy.Spider):
         npage = int(npage.split()[-1])
 
         yield from self.parsepage(response)
-        # for i in range(1, npage):
-        #     yield scrapy.Request(response.url + f"&page={i}", callback=self.parsepage)
+        for i in range(1, npage):
+            yield scrapy.Request(response.url + f"&page={i}", callback=self.parsepage)
 
     def parsepage(self, response):
         links = response.xpath("//ul[@id='listaElementosPrimernivel']//a//@href").extract()
