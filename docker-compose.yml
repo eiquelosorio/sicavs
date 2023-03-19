@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  crawler:
+    build: ./crawler
+    depends_on:
+      - db
+    command: python main.py
+    volumes:
+      - ./crawler:/crawler
+
+  db:
+    image: mongo
+    volumes:
+      - sicav_db:/data/db
+    ports:
+      - "27017:27017"
+
+  test:
+    build: ./crawler
+    depends_on:
+      - db
+    command: pytest tests/
+    volumes:
+      - ./crawler:/crawler
+
+volumes:
+  sicav_db:
